@@ -20,11 +20,11 @@ public class NumberCell implements Cell {
 
     @Override
     public String getSign() {
-        if(cellState.isChecked()){
-            return String.valueOf(nearbyLandMineCount);
-        }
         if(cellState.isFlagged()){
             return FLAG_SIGN;
+        }
+        if(cellState.isChecked()){
+            return String.valueOf(nearbyLandMineCount);
         }
         return UNCHECKED_SIGN;
     }
