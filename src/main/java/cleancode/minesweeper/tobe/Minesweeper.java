@@ -1,40 +1,44 @@
 package cleancode.minesweeper.tobe;
 
+import cleancode.minesweeper.tobe.game.GameInitializable;
+import cleancode.minesweeper.tobe.game.GameRunnable;
 import cleancode.minesweeper.tobe.gamelevel.GameLevel;
-import cleancode.minesweeper.tobe.io.ConsoleInputHandler;
-import cleancode.minesweeper.tobe.io.ConsoleOutputHandler;
+import cleancode.minesweeper.tobe.io.InputHandler;
+import cleancode.minesweeper.tobe.io.OutputHandler;
 
 
-public class Minesweeper {
-    private final ConsoleInputHandler consoleInputHandler = new ConsoleInputHandler();
-    private final ConsoleOutputHandler consoleOutputHandler = new ConsoleOutputHandler();
+public class Minesweeper implements GameRunnable, GameInitializable {
+    private final InputHandler inputHandler;
+    private final OutputHandler outputHandler;
     private final BoardIndexConverter boardIndexConverter = new BoardIndexConverter();
     private final GameBoard gameBoard;
 
     private int gameStatus = 0; // 0: 게임 중, 1: 승리, -1: 패배
 
-    public Minesweeper(GameLevel gameLevel){
+    public Minesweeper(GameLevel gameLevel, InputHandler inputHandler, OutputHandler outputHandler){
         gameBoard = new GameBoard(gameLevel);
+
+        this.inputHandler = inputHandler;
+        this.outputHandler = outputHandler;
     }
 
-    // '열렸다/닫혔다'는 개념과, '사용자가 체크했다'는 개념은 다르다.
-    // Cell 기반의 보드 -> Cell을 갈아끼는게 아니라, Cell한테 메시지를 보내 내부 상태를 변경하도록 한다
-    // 객체 지향 설계 중요!
-    // 도메인 지식은 만드는 것이 아니라 발견하는 것 (개발 및 운영하면서 계속 발견됨)
-    public void run(){
-        consoleOutputHandler.showGameStartComments(); // 메시지를 주고받으면서 협업
+    @Override
+    public void initialize() {
         gameBoard.initializeGame();
+    }
 
+    public void run(){
+        outputHandler.showGameStartComments(); // 메시지를 주고받으면서 협업
         while (true) {
             try {
-                consoleOutputHandler.showBorad(gameBoard);
+                outputHandler.showBoard(gameBoard);
 
                 if (doesUserWinTheGame()) {
-                    consoleOutputHandler.printGameWinningComment();
+                    outputHandler.printGameWinningComment();
                     break;
                 }
                 if (doesUserLoseTheGame()) {
-                    consoleOutputHandler.printGameLosingComment();
+                    outputHandler.printGameLosingComment();
                     break;
                 }
 
@@ -42,9 +46,9 @@ public class Minesweeper {
                 String userActionInput = getUserActionInputFromUser();
                 actOnCell(cellInput, userActionInput);
             } catch(GameException e){
-                consoleOutputHandler.printExceptionMessage(e);
+                outputHandler.printExceptionMessage(e);
             }catch(Exception e){
-                consoleOutputHandler.printSimpleMessage("프로그램에 문제가 생겼습니다.");
+                outputHandler.printSimpleMessage("프로그램에 문제가 생겼습니다.");
             }
         }
     }
@@ -84,13 +88,13 @@ public class Minesweeper {
     }
 
     private String getCellInputFromUser() {
-        consoleOutputHandler.printCommentForSelectingCell();
-        return consoleInputHandler.getUserInput();
+        outputHandler.printCommentForSelectingCell();
+        return inputHandler.getUserInput();
     }
 
     private String getUserActionInputFromUser() {
-        consoleOutputHandler.printCommentForUserAction();
-        return consoleInputHandler.getUserInput();
+        outputHandler.printCommentForUserAction();
+        return inputHandler.getUserInput();
     }
 
     private void checkIfGameIsOver() {
