@@ -6,6 +6,7 @@ import cleancode.minesweeper.tobe.gamelevel.GameLevel;
 import cleancode.minesweeper.tobe.io.InputHandler;
 import cleancode.minesweeper.tobe.io.OutputHandler;
 import cleancode.minesweeper.tobe.position.CellPosition;
+import cleancode.minesweeper.tobe.user.UserAction;
 
 
 public class Minesweeper implements GameRunnable, GameInitializable {
@@ -43,7 +44,7 @@ public class Minesweeper implements GameRunnable, GameInitializable {
                 }
 
                 CellPosition cellInput = getCellInputFromUser();
-                String userActionInput = getUserActionInputFromUser();
+                UserAction userActionInput = getUserActionInputFromUser();
                 actOnCell(cellInput, userActionInput);
             } catch(GameException e){
                 outputHandler.showExceptionMessage(e);
@@ -52,14 +53,14 @@ public class Minesweeper implements GameRunnable, GameInitializable {
             }
         }
     }
-    private void actOnCell(CellPosition cellPosition, String userActionInput) {
-        if (doesUserChooseToPlantFlag(userActionInput)) {
+    private void actOnCell(CellPosition cellPosition, UserAction userAction) {
+        if (doesUserChooseToPlantFlag(userAction)) {
             gameBoard.flagAt(cellPosition);
             checkIfGameIsOver();
             return;
         }
 
-        if(doesUserChooseToOpenCell(userActionInput)) {
+        if(doesUserChooseToOpenCell(userAction)) {
             if (gameBoard.isLandMineCellAt(cellPosition)) {
                 gameBoard.openAt(cellPosition);
                 changeGameStatusToLose();
@@ -76,12 +77,12 @@ public class Minesweeper implements GameRunnable, GameInitializable {
     private void changeGameStatusToLose() {
         gameStatus = -1;
     }
-    private boolean doesUserChooseToOpenCell(String userActionInput) {
-        return userActionInput.equals("1");
+    private boolean doesUserChooseToOpenCell(UserAction userAction) {
+        return userAction == UserAction.OPEN;
     }
 
-    private boolean doesUserChooseToPlantFlag(String userActionInput) {
-        return userActionInput.equals("2");
+    private boolean doesUserChooseToPlantFlag(UserAction userAction) {
+        return userAction == UserAction.FLAG;
     }
 
     private CellPosition getCellInputFromUser() {
@@ -94,9 +95,9 @@ public class Minesweeper implements GameRunnable, GameInitializable {
         return cellPosition;
     }
 
-    private String getUserActionInputFromUser() {
+    private UserAction getUserActionInputFromUser() {
         outputHandler.showCommentForUserAction();
-        return inputHandler.getUserInput();
+        return inputHandler.getUserActionFromUser();
     }
 
     private void checkIfGameIsOver() {

@@ -19,14 +19,14 @@ public class NumberCell implements Cell {
     }
 
     @Override
-    public String getSign() {
+    public CellSnapshot getSnapshot() {
         if(cellState.isFlagged()){
-            return FLAG_SIGN;
+            return CellSnapshot.ofFlag();
         }
         if(cellState.isChecked()){
-            return String.valueOf(nearbyLandMineCount);
+            return CellSnapshot.ofNumber(nearbyLandMineCount);
         }
-        return UNCHECKED_SIGN;
+        return CellSnapshot.ofUnchecked();
     }
     @Override
     public void flag() {

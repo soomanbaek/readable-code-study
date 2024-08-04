@@ -110,9 +110,9 @@ public class GameBoard {
             .forEach(this::openSurroundedCells);
     }
 
-    public String getSign(CellPosition cellPosition) {
+    public CellSnapshot getSnapshot(CellPosition cellPosition) {
         Cell cell = findCell(cellPosition);
-        return cell.getSign();
+        return cell.getSnapshot();
     }
 
     private Cell findCell(CellPosition cellPosition) {

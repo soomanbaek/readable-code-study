@@ -1,8 +1,6 @@
 package cleancode.minesweeper.tobe.cell;
 
 public class EmptyCell implements Cell {
-    private static final String EMPTY_SIGN = "■";
-
     private final CellState cellState = CellState.initialize();
 
     @Override
@@ -16,14 +14,14 @@ public class EmptyCell implements Cell {
     }
 
     @Override
-    public String getSign() {
+    public CellSnapshot getSnapshot(){
         if(cellState.isOpened()){ // 부모의 필드를 직접 참조 -> 결합도가 매우 높은 상황
-            return EMPTY_SIGN;
+            return CellSnapshot.ofEmpty();
         }
         if(cellState.isFlagged()){
-            return FLAG_SIGN;
+            return CellSnapshot.ofFlag();
         }
-        return UNCHECKED_SIGN;
+        return CellSnapshot.ofUnchecked();
     }
     @Override
     public void flag() {

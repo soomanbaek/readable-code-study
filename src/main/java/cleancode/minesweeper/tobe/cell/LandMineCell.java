@@ -1,7 +1,6 @@
 package cleancode.minesweeper.tobe.cell;
 
 public class LandMineCell implements Cell {
-    private static final String LAND_MINE_SIGN = "☼";
     private static final CellState cellState = CellState.initialize();
 
     @Override
@@ -15,11 +14,11 @@ public class LandMineCell implements Cell {
     }
 
     @Override
-    public String getSign() {
+    public CellSnapshot getSnapshot() {
         if(cellState.isOpened()){
-            return LAND_MINE_SIGN;
+            return CellSnapshot.ofLandMine();
         }
-        return UNCHECKED_SIGN;
+        return CellSnapshot.ofUnchecked();
     }
 
     @Override
