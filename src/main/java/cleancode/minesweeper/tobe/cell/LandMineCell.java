@@ -1,7 +1,7 @@
 package cleancode.minesweeper.tobe.cell;
 
 public class LandMineCell implements Cell {
-    private static final CellState cellState = CellState.initialize();
+    private final CellState cellState = CellState.initialize();
 
     @Override
     public boolean isLandMine() {
@@ -15,6 +15,9 @@ public class LandMineCell implements Cell {
 
     @Override
     public CellSnapshot getSnapshot() {
+        if(cellState.isFlagged()){
+            return CellSnapshot.ofFlag();
+        }
         if(cellState.isOpened()){
             return CellSnapshot.ofLandMine();
         }
