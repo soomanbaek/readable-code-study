@@ -8,7 +8,7 @@ public enum GameStatus {
 
     private final String description;
 
-    GameStatus(String description){
+    GameStatus(String description) {
         this.description = description;
     }
 }

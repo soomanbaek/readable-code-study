@@ -1,7 +1,7 @@
 package cleancode.minesweeper.tobe;
 
-import cleancode.minesweeper.tobe.minesweeper.config.GameConfig;
 import cleancode.minesweeper.tobe.minesweeper.Minesweeper;
+import cleancode.minesweeper.tobe.minesweeper.config.GameConfig;
 import cleancode.minesweeper.tobe.minesweeper.gamelevel.Beginner;
 import cleancode.minesweeper.tobe.minesweeper.io.ConsoleInputHandler;
 import cleancode.minesweeper.tobe.minesweeper.io.ConsoleOutputHandler;

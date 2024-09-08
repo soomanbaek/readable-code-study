@@ -10,13 +10,13 @@ public class ConsoleInputHandler implements InputHandler {
     private final BoardIndexConverter boardIndexConverter = new BoardIndexConverter();
 
     @Override
-    public UserAction getUserActionFromUser(){
+    public UserAction getUserActionFromUser() {
         String userAction = SCANNER.nextLine();
 
-        if("1".equals(userAction)){
+        if ("1".equals(userAction)) {
             return UserAction.OPEN;
         }
-        if("2".equals(userAction)){
+        if ("2".equals(userAction)) {
             return UserAction.FLAG;
         }
         return UserAction.UNKNOWN;

@@ -7,7 +7,7 @@ public enum UserAction {
 
     private final String description;
 
-    UserAction(String description){
+    UserAction(String description) {
         this.description = description;
     }
 }

@@ -20,14 +20,15 @@ public class NumberCell implements Cell {
 
     @Override
     public CellSnapshot getSnapshot() {
-        if(cellState.isFlagged()){
+        if (cellState.isFlagged()) {
             return CellSnapshot.ofFlag();
         }
-        if(cellState.isOpened()){
+        if (cellState.isOpened()) {
             return CellSnapshot.ofNumber(nearbyLandMineCount);
         }
         return CellSnapshot.ofUnchecked();
     }
+
     @Override
     public void flag() {
         cellState.flag();

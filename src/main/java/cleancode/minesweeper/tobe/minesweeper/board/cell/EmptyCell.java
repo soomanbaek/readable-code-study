@@ -14,15 +14,16 @@ public class EmptyCell implements Cell {
     }
 
     @Override
-    public CellSnapshot getSnapshot(){
-        if(cellState.isOpened()){ // 부모의 필드를 직접 참조 -> 결합도가 매우 높은 상황
+    public CellSnapshot getSnapshot() {
+        if (cellState.isOpened()) { // 부모의 필드를 직접 참조 -> 결합도가 매우 높은 상황
             return CellSnapshot.ofEmpty();
         }
-        if(cellState.isFlagged()){
+        if (cellState.isFlagged()) {
             return CellSnapshot.ofFlag();
         }
         return CellSnapshot.ofUnchecked();
     }
+
     @Override
     public void flag() {
         cellState.flag();

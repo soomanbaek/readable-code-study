@@ -15,10 +15,10 @@ public class LandMineCell implements Cell {
 
     @Override
     public CellSnapshot getSnapshot() {
-        if(cellState.isFlagged()){
+        if (cellState.isFlagged()) {
             return CellSnapshot.ofFlag();
         }
-        if(cellState.isOpened()){
+        if (cellState.isOpened()) {
             return CellSnapshot.ofLandMine();
         }
         return CellSnapshot.ofUnchecked();

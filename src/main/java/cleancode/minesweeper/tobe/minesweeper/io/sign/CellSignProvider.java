@@ -5,34 +5,34 @@ import cleancode.minesweeper.tobe.minesweeper.board.cell.CellSnapshotStatus;
 
 import java.util.Arrays;
 
-public enum CellSignProvider implements CellSignProvidable{
-    EMPTY(CellSnapshotStatus.EMPTY){
+public enum CellSignProvider implements CellSignProvidable {
+    EMPTY(CellSnapshotStatus.EMPTY) {
         @Override
         public String provide(CellSnapshot cellSnapshot) {
             return EMPTY_SIGN;
         }
     },
-    FLAG(CellSnapshotStatus.FLAG){
+    FLAG(CellSnapshotStatus.FLAG) {
         @Override
         public String provide(CellSnapshot cellSnapshot) {
             return FLAG_SIGN;
         }
     },
-    LAND_MINE(CellSnapshotStatus.LAND_MINE){
+    LAND_MINE(CellSnapshotStatus.LAND_MINE) {
         @Override
         public String provide(CellSnapshot cellSnapshot) {
             return LAND_MINE_SIGN;
         }
     },
-    NUMBER(CellSnapshotStatus.NUMBER){
+    NUMBER(CellSnapshotStatus.NUMBER) {
         @Override
         public String provide(CellSnapshot cellSnapshot) {
             return String.valueOf(cellSnapshot.getNearbyLandMineCount());
         }
     },
-    UNCHECKED(CellSnapshotStatus.UNCHECKED){
+    UNCHECKED(CellSnapshotStatus.UNCHECKED) {
         @Override
-        public String provide(CellSnapshot cellSnapshot){
+        public String provide(CellSnapshot cellSnapshot) {
             return UNCHECKED_SIGN;
         }
     },
@@ -45,16 +45,11 @@ public enum CellSignProvider implements CellSignProvidable{
 
     private final CellSnapshotStatus status;
 
-    CellSignProvider(CellSnapshotStatus status){
+    CellSignProvider(CellSnapshotStatus status) {
         this.status = status;
     }
 
-    @Override
-    public boolean supports(CellSnapshot cellSnapshot) {
-        return cellSnapshot.isSameStatus(status);
-    }
-
-    public static String findCellSignFrom(CellSnapshot snapshot){
+    public static String findCellSignFrom(CellSnapshot snapshot) {
         CellSignProvider cellSignProvider = findBy(snapshot);
         return cellSignProvider.provide(snapshot);
     }
@@ -63,6 +58,11 @@ public enum CellSignProvider implements CellSignProvidable{
         return Arrays.stream(values())
             .filter(provider -> provider.supports(snapshot))
             .findFirst()
-            .orElseThrow(()-> new IllegalArgumentException("확인할 수 없는 Cell입니다."));
+            .orElseThrow(() -> new IllegalArgumentException("확인할 수 없는 Cell입니다."));
+    }
+
+    @Override
+    public boolean supports(CellSnapshot cellSnapshot) {
+        return cellSnapshot.isSameStatus(status);
     }
 }

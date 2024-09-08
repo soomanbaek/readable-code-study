@@ -10,11 +10,11 @@ public class Cells { // 일급 컬렉션
         this.cells = cells;
     }
 
-    public static Cells of(List<Cell> cells){
+    public static Cells of(List<Cell> cells) {
         return new Cells(cells);
     }
 
-    public static Cells from(Cell[][] cells){
+    public static Cells from(Cell[][] cells) {
         List<Cell> cellList = Arrays.stream(cells)
             .flatMap(Arrays::stream)
             .toList();
