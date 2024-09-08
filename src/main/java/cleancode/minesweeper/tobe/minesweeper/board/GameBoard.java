@@ -7,6 +7,7 @@ import cleancode.minesweeper.tobe.minesweeper.board.position.RelativePosition;
 import cleancode.minesweeper.tobe.minesweeper.board.cell.*;
 
 import java.util.List;
+import java.util.Stack;
 
 public class GameBoard {
     private final Cell[][] board;
@@ -120,23 +121,36 @@ public class GameBoard {
     }
 
     private void openSurroundedCells(CellPosition cellPosition) {
-        if (isInvalidCellPosition(cellPosition)) {
-            return;
-        }
-        if (isOpenedCell(cellPosition)) {
-            return;
-        }
-        if (isLandMineCellAt(cellPosition)) {
-            return;
-        }
-        openOneCell(cellPosition);
+        Stack<CellPosition> stack = new Stack<>();
+        stack.push(cellPosition);
 
-        if (doesCellHaveLandMineCount(cellPosition)) {
+        while(!stack.isEmpty()){
+            openAndPushCellAt(stack);
+        }
+    }
+
+    private void openAndPushCellAt(Stack<CellPosition> stack) {
+        CellPosition currentCellPosition = stack.pop();
+
+        if (isInvalidCellPosition(currentCellPosition)) {
+            return;
+        }
+        if (isOpenedCell(currentCellPosition)) {
+            return;
+        }
+        if (isLandMineCellAt(currentCellPosition)) {
+            return;
+        }
+        openOneCell(currentCellPosition);
+
+        if (doesCellHaveLandMineCount(currentCellPosition)) {
             return;
         }
 
-        calculateSurroundedPositions(cellPosition, getRowSize(), getColSize())
-            .forEach(this::openSurroundedCells);
+        List<CellPosition> surroundedPositions = calculateSurroundedPositions(currentCellPosition, getRowSize(), getColSize());
+        for(CellPosition surroundedPosition : surroundedPositions){
+            stack.push(surroundedPosition);
+        }
     }
 
     private void updateCellAt(CellPosition position, Cell cell) {
