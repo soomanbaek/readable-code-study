@@ -1,4 +1,4 @@
-package cleancode.studycafe.myself.model;
+package cleancode.studycafe.myself.studycafepass;
 
 public enum StudyCafePassType {
 
